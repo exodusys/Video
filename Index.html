@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier Vidéo Batch — HTML pur</title>
+</head>
+<body>
+
+<h1>Atelier Vidéo Batch</h1>
+
+<p>
+<strong>Principe :</strong> ce fichier ne contient ni CSS ni JavaScript.<br>
+Il utilise uniquement des formulaires HTML natifs pour envoyer vos images
+et votre prompt à l’API Agnes, qui génère les vidéos en batch.<br>
+Chaque image produit une vidéo. Le navigateur affiche ensuite les résultats.
+</p>
+
+<hr>
+
+<h2>1. Clé API</h2>
+
+<form action="https://apihub.agnes-ai.com/v1/videos" method="post" enctype="multipart/form-data">
+
+<p>
+<label for="api_key">Clé API Agnes :</label><br>
+<input type="password" id="api_key" name="api_key" size="50" placeholder="sk-..." required>
+</p>
+
+<h2>2. Images à animer</h2>
+
+<p>
+<label for="images">Sélectionnez une ou plusieurs images :</label><br>
+<input type="file" id="images" name="images" accept="image/*" multiple required>
+</p>
+
+<h2>3. Prompt</h2>
+
+<p>
+<label for="prompt">Décrivez le mouvement souhaité :</label><br>
+<textarea id="prompt" name="prompt" rows="6" cols="60" placeholder="Anime doucement chaque image. Garde le sujet identique. Lumière chaude, mouvement léger."></textarea>
+</p>
+
+<h2>4. Effet visuel</h2>
+
+<p>
+<label for="effect">Choisissez un effet :</label><br>
+<select id="effect" name="effect">
+<option value="">Aucun effet</option>
+<option value="cinematic">Cinématique</option>
+<option value="golden-hour">Golden Hour</option>
+<option value="bw">Noir et Blanc</option>
+<option value="pastel-dream">Pastel Rêveur</option>
+<option value="neon-urban">Néon Urbain</option>
+<option value="vintage-super8">Vintage Super 8</option>
+<option value="misty">Brume Mystique</option>
+<option value="moonlight">Clair de Lune</option>
+<option value="simpson">Les Simpson</option>
+<option value="ghibli">Studio Ghibli</option>
+<option value="manga-nb">Manga Noir et Blanc</option>
+<option value="cyberpunk">Cyberpunk</option>
+<option value="pixar">Pixar 3D</option>
+<option value="watercolor">Aquarelle</option>
+<option value="oil">Peinture à l’huile</option>
+<option value="claymation">Claymation</option>
+<option value="vaporwave">Vaporwave</option>
+</select>
+</p>
+
+<h2>5. Réglages techniques</h2>
+
+<p>
+<label for="duration">Durée de chaque vidéo :</label><br>
+<select id="duration" name="duration">
+<option value="121">5 secondes</option>
+<option value="153" selected>6,4 secondes</option>
+<option value="241">10 secondes</option>
+</select>
+</p>
+
+<p>
+<label for="framing">Cadrage :</label><br>
+<select id="framing" name="framing">
+<option value="random">Aléatoire</option>
+<option value="close">Très serré</option>
+<option value="medium">Moyen</option>
+<option value="wide">Large</option>
+</select>
+</p>
+
+<p>
+<label for="intensity">Intensité du mouvement :</label><br>
+<select id="intensity" name="intensity">
+<option value="random">Aléatoire</option>
+<option value="subtle">Subtile</option>
+<option value="moderate">Modérée</option>
+<option value="strong">Forte</option>
+</select>
+</p>
+
+<h2>6. Lancer la génération</h2>
+
+<p>
+<button type="submit">Créer les vidéos en batch</button>
+</p>
+
+</form>
+
+<hr>
+
+<h2>Résultats</h2>
+
+<p>
+Une fois le formulaire envoyé, l’API Agnes renvoie les vidéos générées.<br>
+Selon la réponse du serveur, elles peuvent s’afficher directement ci-dessous
+ou être téléchargeables via des liens.
+</p>
+
+<p>
+<em>Note : ce fichier HTML pur ne peut pas afficher dynamiquement les vidéos
+sans JavaScript. Pour un affichage automatique dans la page, il faut ajouter
+du JS. En HTML pur, le navigateur affiche la réponse brute de l’API ou
+télécharge les fichiers.</em>
+</p>
+
+<hr>
+
+<h2>Alternative : envoi direct à l’API</h2>
+
+<p>
+Si vous préférez envoyer les images une par une ou contrôler le batch
+manuellement, utilisez ce formulaire secondaire :
+</p>
+
+<form action="https://apihub.agnes-ai.com/v1/videos" method="post" enctype="multipart/form-data">
+
+<p>
+<label for="api_key2">Clé API :</label><br>
+<input type="password" id="api_key2" name="api_key" size="50" required>
+</p>
+
+<p>
+<label for="image2">Image unique :</label><br>
+<input type="file" id="image2" name="image" accept="image/*" required>
+</p>
+
+<p>
+<label for="prompt2">Prompt :</label><br>
+<textarea id="prompt2" name="prompt" rows="4" cols="60"></textarea>
+</p>
+
+<p>
+<label for="frames2">Nombre de frames :</label><br>
+<input type="number" id="frames2" name="num_frames" value="153" min="1" max="500">
+</p>
+
+<p>
+<label for="fps2">Images par seconde :</label><br>
+<input type="number" id="fps2" name="frame_rate" value="24" min="1" max="60">
+</p>
+
+<p>
+<button type="submit">Générer cette vidéo</button>
+</p>
+
+</form>
+
+<hr>
+
+<h2>Mode batch sans limite</h2>
+
+<p>
+Pour envoyer plusieurs images en une seule fois sans JavaScript, utilisez
+un champ <code>multiple</code> comme ci-dessus. Le navigateur envoie
+toutes les images dans la même requête.<br>
+L’API Agnes les traite séquentiellement et renvoie une liste de vidéos.
+</p>
+
+<p>
+Si vous voulez découper le batch en petits lots, créez plusieurs formulaires
+identiques et envoyez-les l’un après l’autre.
+</p>
+
+<hr>
+
+<h2>Rappel des paramètres API</h2>
+
+<ul>
+<li><strong>Endpoint :</strong> https://apihub.agnes-ai.com/v1/videos</li>
+<li><strong>Méthode :</strong> POST</li>
+<li><strong>Modèle :</strong> agnes-video-v2.0</li>
+<li><strong>Champs :</strong> api_key, image(s), prompt, num_frames, frame_rate, effect</li>
+<li><strong>Réponse :</strong> URL(s) de vidéo(s) générée(s)</li>
+</ul>
+
+<hr>
+
+<p>
+<small>
+Fichier HTML pur — aucun CSS, aucun JavaScript.<br>
+Pour un affichage automatique, une file d’attente visuelle, une barre de
+progression ou un anti-veille, il faut ajouter du JS.<br>
+Version batch minimale fournie ici.
+</small>
+</p>
+
+</body>
+</html>
